@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A2A</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <div>
         <form action="/game" method="POST">
             <button id="game-start" type="submit">Start</button>
@@ -14,6 +8,4 @@
             <input id="target-input" type="text" name="target-artist" value="taylor swift">
         </form>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% endblock %}

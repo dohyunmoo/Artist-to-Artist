@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <div>
+        <p>count: 0</p>
         <p>{{ start_artist }}</p>
-        <ul>
-            {% for artist in related_artists %}
-                <li>{{ artist }}</li>
-            {% endfor %}
-        </ul>
-        <p>{{ target_artist }}</p>
+        <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image">
+        <form action="/game" method="POST">
+            <ul>
+                {% for artist in related_artists %}
+                    <li><a href="/game?chosen={{ artist[0] }}&chosenImage={{ artist[1] }}" class="artist-link" id="artist-{{ loop.index - 1 }}">{{ artist[0] }}</a></li>
+                    <img src="data:image/jpeg;base64,{{ encode_list[loop.index - 1] }}" alt="{{ artist[0] }} image">
+                {% endfor %}
+            </ul>
+        </form>
+        <p id="target-artist">{{ target_artist }}</p>
+        <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image">
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% endblock %}

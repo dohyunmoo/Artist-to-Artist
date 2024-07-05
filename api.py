@@ -45,16 +45,26 @@ def search_related_artist(token, artist_name):
     return json_result["artists"]
 
 
+def artist_image(token, artist_name):
+    url_search = f"https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1"
+    headers = authorization(token)
+
+    result_search = get(url_search, headers=headers)
+    json_result_search = json.loads(result_search.content)
+    return json_result_search["artists"]["items"][0]["images"][0]["url"]
+
+
 def authorization(token):
     return {"Authorization": f"Bearer {token}"}
 
 
 def test(artist_name):
     token = get_token()
-    artists = search_related_artist(token, artist_name)
+    # artists = search_related_artist(token, artist_name)
+    artist_image(token, artist_name)
 
-    for artist in artists:
-        print(artist["name"], artist["genres"], artist["id"])
+    # for artist in artists:
+    #     print(artist["name"], artist["genres"], artist["id"])
 
 if __name__ == "__main__":
     test("taylor swift")
