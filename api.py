@@ -4,8 +4,6 @@ import base64
 from requests import post, get
 import json
 
-from pprint import pprint
-
 # loading client variables from .env file
 load_dotenv()
 
@@ -27,33 +25,36 @@ def get_token():
     json_result = json.loads(result.content)
     return json_result["access_token"]
 
-def search_artist_id(token, artist_name):
-    url = f"https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1"
+
+def search_related_artist(token, artist_name):
+    url_search = f"https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1"
     headers = authorization(token)
 
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)
+    result_search = get(url_search, headers=headers)
+    json_result_search = json.loads(result_search.content)
 
-    artist_id = json_result["artists"]["items"][0]["id"]
-    search_related_artist(token, artist_id)
+    artist_id = json_result_search["artists"]["items"][0]["id"]
 
-
-def search_related_artist(token, artist_id):
-    url = f"https://api.spotify.com/v1/artists/{artist_id}/related-artists"
+    url_related = f"https://api.spotify.com/v1/artists/{artist_id}/related-artists"
     headers = authorization(token)
 
-    result = get(url, headers=headers)
+    result = get(url_related, headers=headers)
     json_result = json.loads(result.content)
+    
+    # reutrn related artists
+    return json_result["artists"]
 
-    for artist in json_result["artists"]:
-        print(artist["name"], artist["genres"], artist["id"])
 
 def authorization(token):
     return {"Authorization": f"Bearer {token}"}
 
-def main():
+
+def test(artist_name):
     token = get_token()
-    search_artist_id(token, "newjeans")
+    artists = search_related_artist(token, artist_name)
+
+    for artist in artists:
+        print(artist["name"], artist["genres"], artist["id"])
 
 if __name__ == "__main__":
-    main()
+    test("taylor swift")
