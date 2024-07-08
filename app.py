@@ -9,6 +9,7 @@ app.config["JSON_AS_DICT"] = True
 
 token = None
 target_artist = None
+count = 0
 
 @app.route("/home")
 @app.route("/")
@@ -20,6 +21,7 @@ def home():
 def game():
     global target_artist
     global target_artist_image
+    global count
     if request.method == "POST":
         data = request.form.to_dict()
 
@@ -42,25 +44,26 @@ def game():
             target_artist=target_artist,
             target_artist_image=target_artist_image,
             related_artists=related_artists,
-            encode_list = encode_list
+            encode_list = encode_list,
+            count=count
         )
     else:
         chosen_artist = request.args.get("chosen")
         chosen_artist_image = util.encode_image(request.args.get("chosenImage"))
-        if chosen_artist:
-            print(chosen_artist)
 
-            related_artists, encode_list = get_artists(chosen_artist)
+        related_artists, encode_list = get_artists(chosen_artist)
+        count += 1
 
-            return render_template(
-                "game.html",
-                start_artist=chosen_artist,
-                start_artist_image=chosen_artist_image,
-                target_artist=target_artist,
-                target_artist_image=target_artist_image,
-                related_artists=related_artists,
-                encode_list = encode_list
-            )
+        return render_template(
+            "game.html",
+            start_artist=chosen_artist,
+            start_artist_image=chosen_artist_image,
+            target_artist=target_artist,
+            target_artist_image=target_artist_image,
+            related_artists=related_artists,
+            encode_list = encode_list,
+            count=count
+        )
 
 
 def get_artists(start_artist):

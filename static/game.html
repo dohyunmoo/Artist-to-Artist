@@ -2,11 +2,17 @@
 
 {% block content %}
     <div>
-        <p>count: 0</p>
-        <p>{{ start_artist }}</p>
-        <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image">
-        <p id="target-artist">{{ target_artist }}</p>
-        <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image">
+        <p>Artist Count: {{ count }}</p>
+        <div id="start-target-container">
+            <div class="main-artists" id="start-artist", style="background-image: url('data:image/jpeg;base64,{{ start_artist_image }}');">
+                <p>{{ start_artist }}</p>
+            </div>
+            <div class="main-artists" id="target-artist", style="background-image: url('data:image/jpeg;base64,{{ target_artist_image }}');">
+                <p>{{ target_artist }}</p>
+            </div>
+            <!-- <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image"> -->
+            <!-- <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image"> -->
+        </div>
         <form action="/game" method="POST">
             <ul>
                 {% for artist in related_artists %}
