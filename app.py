@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+import concurrent.futures
 
 import util
 import api
@@ -70,12 +71,15 @@ def get_artists(start_artist):
     print(token)
 
     artists = api.search_related_artist(token, start_artist)
-    related_artists = []
+    related_artists = [(artist["name"], artist["images"][0]["url"]) for artist in artists]
+    image_url = [artist["images"][0]["url"] for artist in artists]
+
     encode_list = []
 
-    for artist in artists:
-        related_artists.append((artist["name"], artist["images"][0]["url"]))
-        encode_list.append(util.encode_image(artist["images"][0]["url"]))
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        futures = [executor.submit(util.encode_image, url) for url in image_url]
+        for f in futures:
+            encode_list.append(f.result())
 
     return related_artists, encode_list
 

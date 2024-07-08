@@ -5,6 +5,8 @@
         <p>count: 0</p>
         <p>{{ start_artist }}</p>
         <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image">
+        <p id="target-artist">{{ target_artist }}</p>
+        <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image">
         <form action="/game" method="POST">
             <ul>
                 {% for artist in related_artists %}
@@ -13,7 +15,5 @@
                 {% endfor %}
             </ul>
         </form>
-        <p id="target-artist">{{ target_artist }}</p>
-        <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image">
     </div>
 {% endblock %}
