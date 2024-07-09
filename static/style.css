@@ -2,3 +2,21 @@ body {
     font-family: 'Courier New', Courier, monospace;
     text-decoration: none;
 }
+
+.artist-card {
+    width: 400px;
+    height: 500px;
+    background-size: cover;
+}
+
+#start-target-container {
+    display: flex;
+}
+
+.main-artists {
+    width: 500px;
+    height: 500px;
+    background-size: cover;
+    border-radius: 15px;
+    position: relative;
+}
