@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div>
-        <form action="/game" method="POST">
-            <button id="game-start" type="submit">Start</button>
-            <input id="start-input" type="text" name="start-artist" value="newjeans">
-            <input id="target-input" type="text" name="target-artist" value="taylor swift">
-        </form>
+    <div class="container" style="height: 50vh;">
+        <div class="row justify-content-md-center align-items-end">
+            <h1>Artist to Artist</h1>
+        </div>
+        <div class="row justify-content-md-center align-items-middle">
+            <form action="/game" method="POST">
+                <button id="game-start" type="submit">Start</button>
+                <input id="start-input" type="text" name="start-artist" value="newjeans">
+                <input id="target-input" type="text" name="target-artist" value="taylor swift">
+            </form>
+        </div>
+        <div class="row justify-content-md-center align-items-start">Developed by. <a class="font-italic" href="https://github.com/dohyunmoo" target="_blank">dohyunmoo</a></div>
     </div>
 {% endblock %}

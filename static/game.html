@@ -2,15 +2,18 @@
 
 {% block content %}
     <div class="container-fluid">
-        <p>Artist Count: {{ count }}</p>
         <div id="start-target-container" class="row">
-            <div class="w-500 h-500 rounded card border-dark" id="start-artist">
+            <div class="rounded card border-dark" id="start-artist">
                 <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image" class="card-img">
                 <div class="card-img-overlay">
                     <p class="card-title">{{ start_artist }}</p>
                 </div>
             </div>
-            <div class="w-500 h-500 rounded card border-dark" id="target-artist">
+            <div class="">
+                <p>Artist Count: {{ count }}</p>
+                <p>{{ completed }}</p>
+            </div>
+            <div class="rounded card border-dark" id="target-artist">
                 <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image" class="card-img">
                 <div class="card-img-overlay">
                     <p class="card-title">{{ target_artist }}</p>
@@ -26,19 +29,18 @@
             </ol>
             <div class="carousel-inner">
                 <form action="/game" method="POST">
-                    <div class="carousel-item active border-dark">
+                    <div class="carousel-item active border-dark justify-content-center align-items-center">
                         <img src="data:image/jpeg;base64,{{ encode_list[0] }}" alt="{{ related_artists[0][0] }} image" class="d-block w-100">
                         <div class="carousel-caption align-middle">
-                            <h5 class="display-1 align-middle">{{ related_artists[0][0] }}</h5>
-                            <a href="/game?chosen={{ related_artists[0][0] }}&chosenImage={{ related_artists[0][1] }}" class="artist-link" id="artist-{{ 0 }}">{{ related_artists[0][0] }}</a>
+                            
+                            <a href="/game?chosen={{ related_artists[0][0] }}&chosenImage={{ related_artists[0][1] }}" class="artist-link" id="artist-{{ 0 }}"><h5 class="display-1 align-middle">{{ related_artists[0][0] }}</h5></a>
                         </div>
                     </div>
                     {% for artist in related_artists[1:] %}
-                        <div class="carousel-item card border-dark">
+                        <div class="carousel-item card border-dark justify-content-center align-items-center">
                             <img src="data:image/jpeg;base64,{{ encode_list[loop.index] }}" alt="{{ artist[0] }} image" class="d-block w-100">
-                            <div class="carousel-caption align-middle">
-                                <h5 class="display-1 align-middle">{{ artist[0] }}</h5>
-                                <a href="/game?chosen={{ artist[0] }}&chosenImage={{ artist[1] }}" class="artist-link" id="artist-{{ loop.index }}">{{ artist[0] }}</a>
+                            <div class="carousel-caption">
+                                <a href="/game?chosen={{ artist[0] }}&chosenImage={{ artist[1] }}" class="artist-link" id="artist-{{ loop.index }}"><h5 class="display-1 align-middle">{{ artist[0] }}</h5></a>
                             </div>
                         </div>
                     {% endfor %}

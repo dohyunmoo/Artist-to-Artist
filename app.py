@@ -9,7 +9,9 @@ app.config["JSON_AS_DICT"] = True
 
 token = None
 target_artist = None
+target_artist_result = None
 count = 0
+completed = False
 
 @app.route("/home")
 @app.route("/")
@@ -21,7 +23,10 @@ def home():
 def game():
     global target_artist
     global target_artist_image
+    global target_artist_result
     global count
+    global completed
+
     if request.method == "POST":
         data = request.form.to_dict()
 
@@ -32,8 +37,11 @@ def game():
         if token == None:
             token = api.get_token()
 
-        start_artist_image = util.encode_image(api.artist_image(token, start_artist))
-        target_artist_image = util.encode_image(api.artist_image(token, target_artist))
+        start_artist_result = api.search_artist_field(token, start_artist)
+        target_artist_result = api.search_artist_field(token, target_artist)
+
+        start_artist_image = util.encode_image(start_artist_result["images"][0]["url"])
+        target_artist_image = util.encode_image(target_artist_result["images"][0]["url"])
 
         related_artists, encode_list = get_artists(start_artist)
 
@@ -45,11 +53,16 @@ def game():
             target_artist_image=target_artist_image,
             related_artists=related_artists,
             encode_list = encode_list,
-            count=count
+            count=count,
+            completed=completed
         )
     else:
         chosen_artist = request.args.get("chosen")
         chosen_artist_image = util.encode_image(request.args.get("chosenImage"))
+
+        chosen_artist_result = api.search_artist_field(token, chosen_artist)
+        if chosen_artist_result["id"] == target_artist_result["id"]:
+            completed = True
 
         related_artists, encode_list = get_artists(chosen_artist)
         count += 1
@@ -62,7 +75,8 @@ def game():
             target_artist_image=target_artist_image,
             related_artists=related_artists,
             encode_list = encode_list,
-            count=count
+            count=count,
+            completed=completed
         )
 
 
