@@ -3,10 +3,8 @@ body {
     text-decoration: none;
 }
 
-.artist-card {
-    width: 400px;
-    height: 500px;
-    background-size: cover;
+#start-artist #target-artist {
+    max-height: 30vh;
 }
 
 #start-target-container {
@@ -19,4 +17,17 @@ body {
     background-size: cover;
     border-radius: 15px;
     position: relative;
+}
+
+#main {
+    margin: auto;
+    align-items: center;
+}
+
+#start-artist, #target-artist {
+    max-width: 75%;
+}
+
+#carouselExampleIndicators {
+    max-width: 675px;
 }

@@ -1,28 +1,43 @@
-// const startButton = document.getElementById("game-start");
-// const startInput = document.getElementById("start-input");
-// const targetInput = document.getElementById("target-input");
+function sendArtistInfo(chosenArtist) {
+    const artistName = chosenArtist.getAttribute("artistName");
+    const artistUrl = chosenArtist.getAttribute("imageUrl");
 
-// startButton.addEventListener("click", function() {
+    fetch("/game", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            name: artistName,
+            url: artistUrl,
+            confirm: "1"
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("response: ", data);
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });
+}
 
-//     const startValue = startInput.value.trim();
-//     const targetValue = targetInput.value.trim();
 
-//     if (!startValue || !targetValue) {
-//         console.error("Please enter both start and target values");
-//         return;  // Exit the function if validation fails
-//     }
+function start() {
+    const startArtist = document.getElementById("start-input");
+    const targetArtist = document.getElementById("target-input");
 
-//     fetch("/game", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({
-//             start_artist: startValue,
-//             target_artist: targetValue
-//         })
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data)
-//     })
-//     .catch(error => console.error(error));
-// });
+    fetch("/game", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            name: [startArtist.value, targetArtist.value],
+            url: "",
+            confirm: "0"
+        })
+    })
+    .then(response => {
+        console.log(response.text());
+    })
+    .catch(error => {
+        console.error("Error: ", error);
+    });
+}

@@ -1,59 +1,67 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container-fluid">
-        <div id="start-target-container" class="row">
-            <div class="rounded card border-dark" id="start-artist">
-                <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image" class="card-img">
-                <div class="card-img-overlay">
-                    <p class="card-title">{{ start_artist }}</p>
+    <div id="main" class="container-fluid">
+        <div id="start-target-container" class="row justify-content-center d-flex">
+            <div class="col-md-4">
+                <div class="rounded card border-dark" id="start-artist">
+                    <img src="data:image/jpeg;base64,{{ start_artist_image }}" alt="{{ start_artist }} image" class="card-img">
+                    <div class="card-img-overlay">
+                        <p class="card-title">{{ start_artist }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="">
+            <div class="col-md-2">
                 <p>Artist Count: {{ count }}</p>
-                <p>{{ completed }}</p>
+                <!-- <p>{{ completed }}</p> -->
             </div>
-            <div class="rounded card border-dark" id="target-artist">
-                <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image" class="card-img">
-                <div class="card-img-overlay">
-                    <p class="card-title">{{ target_artist }}</p>
+            <div class="col-md-4">
+                <div class="rounded card border-dark" id="target-artist">
+                    <img src="data:image/jpeg;base64,{{ target_artist_image }}" alt="{{ target_artist }} image" class="card-img">
+                    <div class="card-img-overlay">
+                        <p class="card-title">{{ target_artist }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="main-carousel-indicator" class="carousel slide" data-ride="carousel" data-bs-interval="false">
-            <ol class="carousel-indicators">
-                <li data-target="#main-carousel-indicators" data-slide-to="{{ 0 }}" class="active"></li>
-                {% for artist in related_artists[1:] %}
-                    <li data-target="#main-carousel-indicators" data-slide-to="{{ loop.index }}"></li>
-                {% endfor %}
-            </ol>
-            <div class="carousel-inner">
-                <form action="/game" method="POST">
-                    <div class="carousel-item active border-dark justify-content-center align-items-center">
-                        <img src="data:image/jpeg;base64,{{ encode_list[0] }}" alt="{{ related_artists[0][0] }} image" class="d-block w-100">
-                        <div class="carousel-caption align-middle">
-                            
-                            <a href="/game?chosen={{ related_artists[0][0] }}&chosenImage={{ related_artists[0][1] }}" class="artist-link" id="artist-{{ 0 }}"><h5 class="display-1 align-middle">{{ related_artists[0][0] }}</h5></a>
-                        </div>
-                    </div>
+        <div class="row justify-content-center">
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
                     {% for artist in related_artists[1:] %}
-                        <div class="carousel-item card border-dark justify-content-center align-items-center">
-                            <img src="data:image/jpeg;base64,{{ encode_list[loop.index] }}" alt="{{ artist[0] }} image" class="d-block w-100">
-                            <div class="carousel-caption">
-                                <a href="/game?chosen={{ artist[0] }}&chosenImage={{ artist[1] }}" class="artist-link" id="artist-{{ loop.index }}"><h5 class="display-1 align-middle">{{ artist[0] }}</h5></a>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ loop.index }}" aria-current="true" aria-label="Slide {{ loop.index }}"></button>
+                    {% endfor %}
+                </div>
+                <!-- <ol class="carousel-indicators">
+                    <li data-target="#main-carousel-indicators" data-slide-to="{{ 0 }}" class="active"></li>
+                </ol> -->
+                <div class="carousel-inner">
+                    <form action="/game" method="POST">
+                        <div class="carousel-item active border-dark justify-content-center align-items-center">
+                            <img src="data:image/jpeg;base64,{{ encode_list[0] }}" alt="{{ related_artists[0][0] }} image" class="d-block w-100">
+                            <div class="carousel-caption align-middle">
+                                <a href="/game?chosen={{ related_artists[0][0] }}&chosenImage={{ related_artists[0][1] }}" class="artist-link" id="artist-{{ 0 }}"><h5 class="display-1 align-middle">{{ related_artists[0][0] }}</h5></a>
                             </div>
                         </div>
-                    {% endfor %}
-                </form>
+                        {% for artist in related_artists[1:] %}
+                            <div class="carousel-item card border-dark justify-content-center align-items-center">
+                                <img src="data:image/jpeg;base64,{{ encode_list[loop.index] }}" alt="{{ artist[0] }} image" class="d-block w-100">
+                                <div class="carousel-caption">
+                                    <a href="/game?chosen={{ artist[0] }}&chosenImage={{ artist[1] }}" class="artist-link" id="artist-{{ loop.index }}"><h5 class="display-1 align-middle">{{ artist[0] }}</h5></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <a class="carousel-control-prev" href="#main-carousel-indicator" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#main-carousel-indicator" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
         <!-- <form action="/game" method="POST">
             <ul>
